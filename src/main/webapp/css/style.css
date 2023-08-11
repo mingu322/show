@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+* {
+    font-family: 'Jua', sans-serif;
+}
+
+@media screen and (max-width: 720px) {
+   #img_header { 
+	   display: none; 
+   }
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;	
+}
