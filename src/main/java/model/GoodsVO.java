@@ -1,6 +1,6 @@
 package model;
 
-public class GoodsVO {
+public class GoodsVO extends CountVO {
 	private String gid;
 	private String title;
 	private int price;

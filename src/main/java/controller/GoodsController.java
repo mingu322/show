@@ -47,8 +47,9 @@ public class GoodsController extends HttpServlet {
 		case "/goods/list.json": // /goods/list.json?page=1&query=
 			page = Integer.parseInt(request.getParameter("page"));
 			query = request.getParameter("query");
+			String uid=request.getParameter("uid");
 			Gson gson = new Gson();
-			out.print(gson.toJson(gdao.list(query, page)));
+			out.print(gson.toJson(gdao.list(query, page, uid)));
 			break;
 		case "/goods/total":
 			query=request.getParameter("query");

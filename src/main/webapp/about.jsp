@@ -24,11 +24,19 @@
 <!-- 상품목록 템플릿 -->
 <script id="temp_goods" type="x-handlebars-template">
 	{{#each .}}
-		<div class="col-6 col-md-3 col-lg-2">
-			<div class="card p-3">
-				<img src="{{image}}" gid="{{gid}}" style="cursor:pointer;">
-				<div class="ellipsis title mt-2">{{title}}</div>
-				<div class="price">{{fmtPrice price}}</div>
+		<div class="col-6 col-md-4 col-lg-2 mb-3">
+			<div class="card">
+				<div class="card-body">
+					<img src="{{image}}" gid="{{gid}}" style="cursor:pointer;" width="100%">
+					<div class="ellipsis title mt-2">{{title}}</div>
+					<div class="price">{{fmtPrice price}}</div>
+				</div>
+				<div class="card-footer">
+					<i class="bi {{heart ucnt}}" style="color:red;"></i>
+					<span style="font-size:0.7rem">{{fcnt}} {{ucnt}}</span>
+					<i class="bi bi-chat-right-dots ms-3"></i>
+					<span style="font-size:0.7rem">{{rcnt}}</span>
+				</div>
 			</div>
 		</div>
 	{{/each}}
@@ -37,10 +45,16 @@
 	Handlebars.registerHelper("fmtPrice", function(price){
 		return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
 	});
+	
+	Handlebars.registerHelper("heart", function(ucnt){
+		if(ucnt==0) return "bi-suit-heart";
+		else return "bi-suit-heart-fill";
+	});
 </script>
 <script>
 	let page=1;
 	let query="";
+	const uid="${user.uid}";
 	
 	$("#div_goods").on("click", "img", function(){
 		const gid=$(this).attr("gid");
@@ -76,7 +90,7 @@
 		$.ajax({
 			type:"get",
 			url:"/goods/list.json",
-			data:{page:page, query:query},
+			data:{page:page, query:query, uid},
 			dataType:"json",
 			success:function(data){
 			console.log(data);

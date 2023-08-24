@@ -8,6 +8,34 @@ import java.util.ArrayList;
 public class PurchaseDAO {
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	PurchaseVO vo=new PurchaseVO();
+	//특정 유저의 구매목록
+		public ArrayList<PurchaseVO> user(String uid){
+			ArrayList<PurchaseVO> array = new ArrayList<PurchaseVO>();
+			try {
+				String sql="select * from view_purchase where uid=? order by purdate desc";
+				PreparedStatement ps=Database.CON.prepareStatement(sql);
+				ps.setString(1, uid);
+				ResultSet rs=ps.executeQuery();
+				while(rs.next()) {
+					PurchaseVO vo=new PurchaseVO();
+					vo.setPid(rs.getString("pid"));
+					vo.setUid(rs.getString("uid"));
+					vo.setUname(rs.getString("uname"));
+				 	vo.setAddress1(rs.getString("raddress1"));
+					vo.setAddress2(rs.getString("raddress2"));
+					vo.setPhone(rs.getString("rphone"));
+					vo.setPurDate(sdf.format(rs.getTimestamp("purdate")));
+					vo.setStatus(rs.getInt("status"));
+					vo.setPurSum(rs.getInt("pursum"));
+					array.add(vo);
+				}
+			}catch(Exception e) {
+				System.out.println("특정 유저의 구매목록 오류:"+e.toString());
+			}
+			return array;
+		}
+	
+	
 	//구매 상태변경
 	public void update(String pid, int status) {
 		try {
